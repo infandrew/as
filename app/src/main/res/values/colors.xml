@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#1cb5c9</color>
+
+    <!-- Top bar background  -->
+    <color name="colorPrimaryDark">#1cb5c9</color>
+    <color name="colorAccent">#9b9709</color>
+    <color name="niceGrey">#d3d3d3</color>
+    <color name="niceWhite">#ffffff</color>
+</resources>
+<!--
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+
+    #1cb5c9
+    #22d9f1
+    #838008
+    515151 nice-grey
+-->

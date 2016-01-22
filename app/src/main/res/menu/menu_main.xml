@@ -1,0 +1,30 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.pillows.accountsafe.MainActivity">
+
+    <item
+        android:id="@+id/action_safe"
+        android:orderInCategory="100"
+        android:title="@string/action_safe"
+        android:icon="@drawable/ic_safe"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/action_add"
+        android:orderInCategory="200"
+        android:title="@string/activity_add_title"
+        android:icon="@drawable/ic_plus"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/action_settings"
+        android:orderInCategory="300"
+        android:title="@string/action_settings"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_reconnect"
+        android:orderInCategory="400"
+        android:title="@string/action_reconnect"
+        app:showAsAction="never" />
+</menu>

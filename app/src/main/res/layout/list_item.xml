@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingStart="16dp"
+    android:paddingEnd="8dp"
+    android:elevation="2dp"
+    android:background="@drawable/round_rect">
+
+    <RelativeLayout
+        android:id="@+id/list_item_visible"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        >
+        <TextView
+            android:id="@+id/list_item_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:text="Dummy account"
+            android:scrollHorizontally="true"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:layout_centerVertical="true"
+            android:layout_alignParentStart="true"
+            android:layout_toStartOf="@+id/list_item_watchtimer"
+            />
+
+        <TextView
+            android:id="@+id/list_item_watchtimer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:text="120"
+            android:textColor="@color/colorPrimary"
+            android:visibility="gone"
+            android:scrollHorizontally="true"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:layout_centerVertical="true"
+            android:layout_toStartOf="@+id/list_item_collapse" />
+        <ImageButton
+            android:id="@+id/list_item_collapse"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_lock" />
+    </RelativeLayout>
+
+
+    <LinearLayout
+        android:id="@+id/list_item_collapsable"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingStart="8dp"
+        android:orientation="vertical"
+        android:visibility="visible">
+        <RelativeLayout
+            android:id="@+id/list_item_loginrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="visible">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="example@gmail.com"
+                android:id="@+id/list_item_login"
+                android:textSize="18sp"
+                android:scrollHorizontally="true"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:layout_centerVertical="true"
+                android:layout_alignParentStart="true"
+                android:layout_toStartOf="@+id/list_item_copylogin" />
+            <ImageButton
+                android:id="@+id/list_item_copylogin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/button_bg"
+                android:src="@drawable/ic_copy_icon" />
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/list_item_passwordrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="visible">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="********"
+                android:id="@+id/list_item_password"
+                android:textSize="18sp"
+                android:scrollHorizontally="true"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:layout_centerVertical="true"
+                android:layout_alignParentStart="true"
+                android:layout_toStartOf="@+id/list_item_showpassword"/>
+
+            <ImageButton
+                android:id="@+id/list_item_copypassword"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/button_bg"
+                android:src="@drawable/ic_copy_icon" />
+
+            <ImageButton
+                android:id="@+id/list_item_showpassword"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:background="@drawable/button_bg"
+                android:src="@drawable/ic_visible"
+                android:layout_toStartOf="@+id/list_item_copypassword"
+                android:focusable="false"
+                android:cropToPadding="false"
+                android:clickable="true" />
+        </RelativeLayout>
+
+    </LinearLayout>
+
+
+</LinearLayout>
