@@ -5,7 +5,6 @@ import android.os.Binder;
 import android.os.Handler;
 import android.os.IBinder;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.pillows.accountsafe.R;
 import com.samsung.android.sdk.SsdkUnsupportedException;
@@ -23,7 +22,7 @@ public class AccessoryService extends SAAgent {
     private static final Class<ServiceConnection> SASOCKET_CLASS = ServiceConnection.class;
     private final IBinder mBinder = new LocalBinder();
     private ServiceConnection mConnectionHandler = null;
-    private AccessoryCallback callbacks;
+    private AccessoryCallback callbacks = AccessoryCallback.NULL;
 
     private Handler mHandler = new Handler();
     private SAPeerAgent peerAgent;
@@ -69,19 +68,17 @@ public class AccessoryService extends SAAgent {
         switch (result) {
             case SAAgent.PEER_AGENT_FOUND:
                 this.peerAgent = peerAgent;
-                //requestServiceConnection(peerAgent);
+                callbacks.snakeResponce(R.string.safe_lock_app_available, false);
                 break;
             case SAAgent.FINDPEER_DEVICE_NOT_CONNECTED:
-                Toast.makeText(getApplicationContext(), R.string.GearNotConnected, Toast.LENGTH_LONG).show();
-                Log.d(TAG, s(R.string.GearNotConnected));
+                this.peerAgent = null;
+                callbacks.snakeResponce(R.string.gear_not_connected, true);
                 break;
             case SAAgent.FINDPEER_SERVICE_NOT_FOUND:
-                Toast.makeText(getApplicationContext(), R.string.GearNotFound, Toast.LENGTH_LONG).show();
-                Log.d(TAG, s(R.string.GearNotFound));
-                break;
             default:
-                Toast.makeText(getApplicationContext(), R.string.NoPeersFound, Toast.LENGTH_LONG).show();
-                Log.d(TAG, s(R.string.NoPeersFound));
+                this.peerAgent = null;
+                callbacks.snakeResponce(R.string.safe_lock_app_not_available, true);
+                break;
         }
     }
 
@@ -93,11 +90,9 @@ public class AccessoryService extends SAAgent {
             @Override
             public void run() {
                 if (status == SAAgent.PEER_AGENT_AVAILABLE) {
-                    Toast.makeText(getApplicationContext(), R.string.PeerAvailable, Toast.LENGTH_LONG).show();
-                    Log.d(TAG, s(R.string.PeerAvailable));
+                    callbacks.snakeResponce(R.string.safe_lock_app_available, false);
                 } else {
-                    Toast.makeText(getApplicationContext(), R.string.PeerNotAvailable, Toast.LENGTH_LONG).show();
-                    Log.d(TAG, s(R.string.PeerNotAvailable));
+                    callbacks.snakeResponce(R.string.safe_lock_app_not_available, true);
                 }
             }
         });
@@ -105,14 +100,20 @@ public class AccessoryService extends SAAgent {
 
     @Override
     protected void onServiceConnectionResponse(SAPeerAgent peerAgent, SASocket socket, int result) {
-        if (result == SAAgent.CONNECTION_SUCCESS) {
-            if (socket != null) {
-                mConnectionHandler = (ServiceConnection) socket;
-            }
-        } else if (result == SAAgent.CONNECTION_ALREADY_EXIST) {
-            Log.e(TAG, "onServiceConnectionResponse, CONNECTION_ALREADY_EXIST");
+        switch(result) {
+            case SAAgent.CONNECTION_SUCCESS:
+                if (socket != null) {
+                    mConnectionHandler = (ServiceConnection) socket;
+                }
+                break;
+            case SAAgent.CONNECTION_ALREADY_EXIST:
+                break;
+            default:
+                this.peerAgent = null;
+                this.mConnectionHandler = null;
+                break;
         }
-        if (delaySendData != null && mConnectionHandler != null)
+        if (delaySendData != null)
         {
             sendData(delaySendData);
             delaySendData = null;
@@ -137,7 +138,7 @@ public class AccessoryService extends SAAgent {
     }
 
     public void sendData(final String data) {
-        if (mConnectionHandler != null) {
+        if (mConnectionHandler != null && peerAgent != null) {
             try {
                 mConnectionHandler.send(ACTION_CHANNEL, data.getBytes());
                 return;
@@ -146,7 +147,11 @@ public class AccessoryService extends SAAgent {
             }
         }
         delaySendData = data;
-        openConnection();
+        if (peerAgent == null) {
+            findPeerAgents();
+        } else if (mConnectionHandler == null) {
+            openConnection();
+        }
     }
 
     public boolean closeConnection() {
@@ -184,14 +189,10 @@ public class AccessoryService extends SAAgent {
             }
             final String receivedString = new String(data);
 
-            String log = String.format("Received string: %s", receivedString);
-            Log.d(TAG, log);
-            Toast.makeText(getBaseContext(), log, Toast.LENGTH_SHORT).show();
             switch(channelId)
             {
                 case ACTION_CHANNEL:
-                    if(callbacks != null)
-                        callbacks.gearResponse(receivedString);
+                    callbacks.gearResponse(receivedString);
                     break;
             }
 
@@ -200,12 +201,7 @@ public class AccessoryService extends SAAgent {
         @Override
         protected void onServiceConnectionLost(int reason) {
             mConnectionHandler = null;
-            mHandler.post(new Runnable() {
-                @Override
-                public void run() {
-                    Toast.makeText(getBaseContext(), R.string.ConnectionTerminateddMsg, Toast.LENGTH_SHORT).show();
-                }
-            });
+            callbacks.snakeResponce(R.string.no_message, true);
         }
     }
 

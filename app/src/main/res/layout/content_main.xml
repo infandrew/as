@@ -10,7 +10,7 @@
     android:paddingLeft="8dp"
     android:paddingRight="8dp"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.pillows.accountsafe.MainActivity"
+    tools:context=".main.MainActivity"
     tools:showIn="@layout/activity_main">
 
     <ListView
@@ -20,6 +20,7 @@
         android:layout_weight="1"
         android:drawSelectorOnTop="false"
         android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
         android:divider="@null"
         android:dividerHeight="8dp"
         />

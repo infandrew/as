@@ -6,13 +6,16 @@
     android:paddingStart="16dp"
     android:paddingEnd="8dp"
     android:elevation="2dp"
+    android:clickable="true"
     android:background="@drawable/round_rect">
 
     <RelativeLayout
         android:id="@+id/list_item_visible"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:clipToPadding="false"
         >
+
         <TextView
             android:id="@+id/list_item_title"
             android:layout_width="wrap_content"
@@ -41,6 +44,7 @@
             android:maxLines="1"
             android:layout_centerVertical="true"
             android:layout_toStartOf="@+id/list_item_collapse" />
+
         <ImageButton
             android:id="@+id/list_item_collapse"
             android:layout_width="wrap_content"
@@ -49,6 +53,7 @@
             android:layout_centerVertical="true"
             android:background="@android:color/transparent"
             android:src="@drawable/ic_lock" />
+
     </RelativeLayout>
 
 

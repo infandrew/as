@@ -1,30 +1,49 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.pillows.accountsafe.MainActivity">
+    tools:context=".main.MainActivity">
+
+<!--    <item android:id="@+id/action_search"
+        android:title="@string/action_search"
+        android:orderInCategory="50"
+        android:icon="@drawable/ic_search"
+        app:showAsAction="always"
+        android:actionViewClass="android.widget.SearchView" />-->
 
     <item
         android:id="@+id/action_safe"
         android:orderInCategory="100"
         android:title="@string/action_safe"
         android:icon="@drawable/ic_safe"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="always" />
 
     <item
         android:id="@+id/action_add"
         android:orderInCategory="200"
         android:title="@string/activity_add_title"
         android:icon="@drawable/ic_plus"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/action_reorder"
+        android:orderInCategory="300"
+        android:title="@string/activity_reorder_title"
+        app:showAsAction="never" />
 
     <item
         android:id="@+id/action_settings"
-        android:orderInCategory="300"
+        android:orderInCategory="400"
         android:title="@string/action_settings"
         app:showAsAction="never" />
     <item
-        android:id="@+id/action_reconnect"
-        android:orderInCategory="400"
-        android:title="@string/action_reconnect"
+        android:id="@+id/action_changekey"
+        android:orderInCategory="600"
+        android:title="@string/action_changekey"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/action_about"
+        android:orderInCategory="700"
+        android:title="@string/action_about"
+        app:showAsAction="never" />
+
 </menu>

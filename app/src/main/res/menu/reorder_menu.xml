@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".reorder.ReorderActivity">
+
+    <item
+        android:id="@+id/action_sort_ascending"
+        android:orderInCategory="100"
+        android:title="@string/action_sort_ascending"
+        android:icon="@drawable/ic_sort_asc"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/action_sort_descending"
+        android:orderInCategory="200"
+        android:title="@string/action_sort_descending"
+        android:icon="@drawable/ic_sort_des"
+        app:showAsAction="ifRoom" />
+
+</menu>

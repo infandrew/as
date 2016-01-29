@@ -14,22 +14,22 @@ import static com.pillows.accountsafe.Settings.*;
  */
 public class AccountDetails implements Serializable {
 
-    private boolean encrypted;
+    private boolean encrypted = false;
     private String name;
     private String password;
     private String login;
-    private long watchTime;
+    private long watchTime = 0;
     private byte[] lard = new byte[LARD_SIZE];
+    private boolean collapsed = false;
+    private boolean dragged = false;
 
     /**
      * Constructor
      */
     public AccountDetails(String name, String login, String password) {
-        this.encrypted = false;
         this.login = login;
         this.name = name;
         this.password = password;
-        this.watchTime = 0;
         new SecureRandom().nextBytes(lard);
     }
 
@@ -62,6 +62,7 @@ public class AccountDetails implements Serializable {
             login = enc.encryptPass(login, lard);
             password = enc.encryptPass(password, lard);
             encrypted = true;
+            collapsed = true;
             return true;
         }
         return false;
@@ -87,5 +88,33 @@ public class AccountDetails implements Serializable {
 
     public void setWatchTime(long watchTime) {
         this.watchTime = watchTime;
+    }
+
+    public boolean isCollapsed() {
+        return collapsed;
+    }
+
+    public boolean isDragged() {
+        return dragged;
+    }
+
+    public void setCollapsed(boolean collapsed) {
+        this.collapsed = collapsed;
+    }
+
+    public void setDragged(boolean dragged) {
+        this.dragged = dragged;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

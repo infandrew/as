@@ -77,7 +77,7 @@ public class Encryptor {
      */
     public Encryptor(String key, String provider, boolean prefSecureDelete) {
         try {
-            SecretKeySpec secretKeySpec = new SecretKeySpec(generate128ByteKey(key, provider), "AES");
+            SecretKeySpec secretKeySpec = new SecretKeySpec(generate256ByteKey(key, provider), "AES");
             encCipher = Cipher.getInstance("AES");
             encCipher.init(Cipher.ENCRYPT_MODE, secretKeySpec);
 
@@ -327,8 +327,8 @@ public class Encryptor {
         return result;
     }
 
-    public static byte[] generate128ByteKey(String baseString) throws Exception {
-        return generate128ByteKey(baseString, DEFAULT_PROVIDER);
+    public static byte[] generate256ByteKey(String baseString) throws Exception {
+        return generate256ByteKey(baseString, DEFAULT_PROVIDER);
     }
 
     /**
@@ -363,13 +363,13 @@ public class Encryptor {
     }
 
     /**
-     * Generates 128-byte key from string
+     * Generates 256-byte key from string
      *
      * @param baseString base string to build key
-     * @return 128-byte array that represent key
+     * @return 256-byte array that represent key
      * @throws Exception
      */
-    public static byte[] generate128ByteKey(String baseString, String provider) throws Exception {
+    public static byte[] generate256ByteKey(String baseString, String provider) throws Exception {
         // init random
         byte[] keyStart = baseString.getBytes("UTF-8");
         SecureRandom rand = SecureRandom.getInstance("SHA1PRNG", provider);
@@ -377,7 +377,7 @@ public class Encryptor {
 
         // init key
         KeyGenerator kgen = KeyGenerator.getInstance("AES");
-        kgen.init(128, rand);
+        kgen.init(256, rand);
         SecretKey skey = kgen.generateKey();
 
         return skey.getEncoded();

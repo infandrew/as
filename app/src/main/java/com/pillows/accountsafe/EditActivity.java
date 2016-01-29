@@ -15,32 +15,41 @@ import java.util.Random;
 /**
  * Created by agudz on 19/01/16.
  */
-public class AddActivity extends AppCompatActivity {
+public class EditActivity extends AppCompatActivity {
 
     private AutoCompleteTextView mNameView;
     private EditText mPasswordView;
     private EditText mRePasswordView;
     private EditText mLoginView;
+    private int position;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void onCreate(Bundle bundle) {
+        super.onCreate(bundle);
         setContentView(R.layout.activity_add);
         // Set back button in top bar
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        Button mEmailSignInButton = (Button) findViewById(R.id.submit_add_button);
-        mEmailSignInButton.setOnClickListener(new View.OnClickListener() {
+        Button submitButton = (Button) findViewById(R.id.submit_add_button);
+        submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 attemptAddSubmit();
             }
         });
+        submitButton.setText(R.string.submit_edit_button_text);
 
         mNameView = (AutoCompleteTextView) findViewById(R.id.account_name);
         mPasswordView = (EditText) findViewById(R.id.account_password);
         mRePasswordView = (EditText) findViewById(R.id.account_repassword);
         mLoginView = (EditText) findViewById(R.id.account_login);
+
+        Bundle res = getIntent().getExtras();
+        if (res != null) {
+            position = res.getInt("account_position");
+            String name = res.getString("account_name");
+            mNameView.setText(name);
+        }
     }
 
     private void attemptAddSubmit() {
@@ -84,6 +93,7 @@ public class AddActivity extends AppCompatActivity {
             focusView.requestFocus();
         } else {
             Bundle conData = new Bundle();
+            conData.putInt("account_position", position);
             conData.putString("account_name", name);
             conData.putString("account_password", password);
             conData.putString("account_login", login);
