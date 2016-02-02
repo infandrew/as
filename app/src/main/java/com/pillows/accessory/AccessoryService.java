@@ -69,6 +69,10 @@ public class AccessoryService extends SAAgent {
             case SAAgent.PEER_AGENT_FOUND:
                 this.peerAgent = peerAgent;
                 callbacks.snakeResponce(R.string.safe_lock_app_available, false);
+                if (delaySendData != null)
+                {
+                    sendData(delaySendData);
+                }
                 break;
             case SAAgent.FINDPEER_DEVICE_NOT_CONNECTED:
                 this.peerAgent = null;
@@ -113,10 +117,10 @@ public class AccessoryService extends SAAgent {
                 this.mConnectionHandler = null;
                 break;
         }
+
         if (delaySendData != null)
         {
             sendData(delaySendData);
-            delaySendData = null;
         }
     }
 
@@ -141,9 +145,10 @@ public class AccessoryService extends SAAgent {
         if (mConnectionHandler != null && peerAgent != null) {
             try {
                 mConnectionHandler.send(ACTION_CHANNEL, data.getBytes());
+                delaySendData = null;
                 return;
             } catch (IOException e) {
-                e.printStackTrace();
+                Log.e(TAG, e.getMessage());
             }
         }
         delaySendData = data;
@@ -195,13 +200,12 @@ public class AccessoryService extends SAAgent {
                     callbacks.gearResponse(receivedString);
                     break;
             }
-
+            closeConnection();
         }
 
         @Override
         protected void onServiceConnectionLost(int reason) {
-            mConnectionHandler = null;
-            callbacks.snakeResponce(R.string.no_message, true);
+            closeConnection();
         }
     }
 

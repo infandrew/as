@@ -40,7 +40,7 @@
                 <transport type="TRANSPORT_BT" />
                 <transport type="TRANSPORT_WIFI" />
             </supportedTransports>
-            <serviceChannel id="228" dataRate="low" priority="low" reliability= "enable"/>
+            <serviceChannel id="228" dataRate="low" priority="high" reliability= "enable"/>
     </serviceProfile>
     </application>
 

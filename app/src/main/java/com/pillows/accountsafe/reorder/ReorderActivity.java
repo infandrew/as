@@ -33,7 +33,7 @@ public class ReorderActivity extends AppCompatActivity {
         // Set back button in top bar
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        final List<AccountDetails> items = (List) DataSaver.deserialize(getCacheDir());
+        final List<AccountDetails> items = (List) DataSaver.deserialize();
 
         final ListView listview = (ListView) findViewById(R.id.listview);
         listview.setEmptyView(findViewById(R.id.empty));
@@ -48,7 +48,7 @@ public class ReorderActivity extends AppCompatActivity {
     {
         if ((keyCode == KeyEvent.KEYCODE_BACK))
         {
-            DataSaver.serialize(adapter.getItems(), getCacheDir());
+            DataSaver.serialize(adapter.getItems());
             finish();
         }
         return super.onKeyDown(keyCode, event);
@@ -84,9 +84,10 @@ public class ReorderActivity extends AppCompatActivity {
                 });
                 break;
             case android.R.id.home:
-                DataSaver.serialize(adapter.getItems(), getCacheDir());
+                DataSaver.serialize(adapter.getItems());
                 finish();
-                break;
+                return true;
+
         }
 
         return super.onOptionsItemSelected(item);
@@ -110,7 +111,7 @@ public class ReorderActivity extends AppCompatActivity {
                         acc.setPassword(password);
                         acc.setName(name);
 
-                        DataSaver.serialize(adapter.getItems(), getCacheDir());
+                        DataSaver.serialize(adapter.getItems());
                         adapter.notifyDataSetChanged();
                     }
                 }

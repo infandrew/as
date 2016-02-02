@@ -125,7 +125,7 @@ public class ReEncProgressTask extends AsyncTask<Void, Integer, Void> {
                 String.format(activity.getString(R.string.snake_successfully_enc), encryptedCount),
                 Snackbar.LENGTH_LONG).show();
         adapter.notifyDataSetChanged();
-        DataSaver.serialize(adapter.getItems(), activity.getCacheDir());
+        DataSaver.serialize(adapter.getItems());
         dialog.dismiss();
     }
 }

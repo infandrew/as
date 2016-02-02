@@ -99,7 +99,7 @@ class MainArrayAdapter extends ArrayAdapter<AccountDetails> {
                         hideDecAccount(view);
                         account.setCollapsed(true);
                     } else {
-                        CallGearAction cb = new CallGearAction(ACTION_OPEN, context) {
+                        CallGearAction cb = new CallGearAction(ACTION_GET, context) {
                             @Override public void callback(String key) {
                                 countDownTimer = showDecAccount(key, view, account);
                             }

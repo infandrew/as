@@ -9,12 +9,15 @@
     <string name="ListviewEmptyMessage">No accounts added</string>
     <string name="message_wait_encryption">"Please wait for encryption"</string>
 
+    <!-- Popups -->
+    <string name="popup_add">Please add your first account</string>
+    <string name="popup_lock">Lock all your added accounts</string>
 
     <!-- Gear connection -->
-    <string name="gear_waiting">Waiting for Gear...</string>
+    <string name="gear_waiting">Waiting for Safe Lock</string>
     <string name="gear_ready">Gear Ready</string>
-    <string name="gear_waiting_message">Please enter safe key to your Gear</string>
-    <string name="gear_waiting_message_new">Please enter new safe key to your Gear</string>
+    <string name="gear_waiting_message">Please enter current safe key to your Gear ...</string>
+    <string name="gear_waiting_message_new">Next, please enter new safe key to your Gear ...</string>
     <string name="gear_not_connected">Gear device not connected</string>
     <string name="safe_lock_app_not_available">Safe Lock application not available</string>
     <string name="safe_lock_app_available">Safe Lock application available</string>
@@ -78,5 +81,7 @@
     <string name="about_content_4_3"> - Press in the middle of screen to pick number.</string>
     <string name="about_content_4_4"> - Double press in the middle of screen to erase previous number.</string>
     <string name="about_content_4_5"> - Press back button to send key to phone and exit. Notice that after being 5 seconds in background your application will do the same.</string>
+    <string name="about_title_5">Database location</string>
+    <string name="about_content_5">You can copy database to another phone from location:\nDevice Storage/AccountSafe/AccountSafe.db</string>
 
 </resources>

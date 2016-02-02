@@ -117,7 +117,22 @@
                 android:padding="2dip"
                 android:layout_weight="1"
                 />
-
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/about_title_5"
+                android:textColor="@color/colorAccent"
+                android:padding="2dip"
+                android:layout_weight="1"
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/about_content_5"
+                android:paddingStart="16dp"
+                android:padding="2dip"
+                android:layout_weight="1"
+                />
         </LinearLayout>
     </ScrollView>
 

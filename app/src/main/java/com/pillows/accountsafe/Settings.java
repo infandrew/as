@@ -5,14 +5,15 @@ package com.pillows.accountsafe;
  */
 final public class Settings {
 
-    public static final boolean DEBUG = false;
+    public static final boolean DEBUG = true;
 
     public static final String TAG = "AccountSafe";
+    public static final String DB_DIR = "AccountSafe";
+    public static final String DB_FILE_NAME = "AccountSafe.db";
     public static final String TEST_KEY = "Awertwertwergsdfgsdfgz";
 
-    public static final String ACTION_CLOSE = "close";
-    public static final String ACTION_OPEN = "open";
-    public static final String ACTION_CHANGE = "change";
+    public static final String ACTION_GET = "get";
+    public static final String ACTION_NEW = "new";
     public static final String ACTION_NOTHING = "nothing";
 
     public static final int CLIPBOARD_HISTORY_SIZE = 25;
