@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.content.SharedPreferences;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -76,7 +77,6 @@ public class MainActivity extends AppCompatActivity implements AccessoryCallback
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Log.d(TAG, "MainActivity onActivityResult");
         switch (requestCode) {
             case ADD_ACCOUNT_RESULT:
                 if (resultCode == RESULT_OK) {
@@ -95,6 +95,7 @@ public class MainActivity extends AppCompatActivity implements AccessoryCallback
             case REORDER_ACCOUNT_RESULT:
                 List<AccountDetails> items = (List) DataSaver.deserialize();
                 adapter.setItems(items);
+                adapter.clearTimers();
                 adapter.notifyDataSetChanged();
                 break;
         }
@@ -131,17 +132,19 @@ public class MainActivity extends AppCompatActivity implements AccessoryCallback
         new android.os.Handler().postDelayed(
                 new Runnable() {
                     public void run() {
+                        SharedPreferences sharedPref = MainActivity.this.getPreferences(Context.MODE_PRIVATE);
                         View actionView = findViewById(R.id.action_add);
-                        if (actionView != null) {
+                        if (actionView != null && sharedPref.getBoolean("popup_add", true)) {
                             List<AccountDetails> items = adapter.getItems();
                             if (items.size() == 0) {
                                 Popup popup = new Popup(MainActivity.this, getString(R.string.popup_add));
                                 popup.show(actionView);
+                                sharedPref.edit().putBoolean("popup_add", false).commit();
                             }
                         }
                     }
                 },
-                1000
+                2000
         );
     }
 
@@ -149,14 +152,16 @@ public class MainActivity extends AppCompatActivity implements AccessoryCallback
         new android.os.Handler().postDelayed(
                 new Runnable() {
                     public void run() {
+                        SharedPreferences sharedPref = MainActivity.this.getPreferences(Context.MODE_PRIVATE);
                         View actionView = findViewById(R.id.action_safe);
-                        if (actionView != null) {
+                        if (actionView != null && sharedPref.getBoolean("popup_lock", true)) {
                             List<AccountDetails> items = adapter.getItems();
                             if (items.size() > 0) {
                                 int encryptedCount = Trash.getEncryptedCount(items);
                                 if (encryptedCount == 0) {
                                     Popup popup = new Popup(MainActivity.this, getString(R.string.popup_lock));
                                     popup.show(actionView);
+                                    sharedPref.edit().putBoolean("popup_lock", false).commit();
                                 }
                             }
                         }
@@ -280,16 +285,12 @@ public class MainActivity extends AppCompatActivity implements AccessoryCallback
 
         gearWaitingDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         gearWaitingDialog.setTitle(getString(R.string.gear_waiting));
-        gearWaitingDialog.setMessage(getString(R.string.gear_waiting_message));
-        switch(ca.getAction()) {
-            case Settings.ACTION_NEW:
-                gearWaitingDialog.setMessage(Html.fromHtml(getString(R.string.gear_waiting_message_new)));
-                break;
-        }
+        gearWaitingDialog.setMessage(getString(R.string.gear_waiting_connection));
         gearWaitingDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
             @Override
             public void onCancel(DialogInterface dialog) {
                 currentAction = CallGearAction.NOTHING;
+                mConsumerService.stopConnecting();
             }
         });
         gearWaitingDialog.show();
@@ -316,6 +317,12 @@ public class MainActivity extends AppCompatActivity implements AccessoryCallback
     public void snakeResponce(final int stringId, final boolean stopGearWaiting) {
         this.runOnUiThread(new Runnable() {
             public void run() {
+                if (stringId == R.string.gear_waiting_message ||
+                    stringId == R.string.gear_waiting_message_new) {
+                    if (gearWaitingTimer != null) {
+                        gearWaitingDialog.setMessage(getString(stringId));
+                    }
+                } else
                 if (stringId != R.string.no_message)
                     Snackbar.make(listview, stringId, Snackbar.LENGTH_LONG).show();
                 if (stopGearWaiting) {

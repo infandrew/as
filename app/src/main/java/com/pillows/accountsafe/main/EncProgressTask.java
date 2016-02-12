@@ -2,12 +2,16 @@ package com.pillows.accountsafe.main;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.support.design.widget.Snackbar;
+import android.view.View;
 import android.widget.ListView;
 
 import com.pillows.accountsafe.AccountDetails;
 import com.pillows.accountsafe.R;
+import com.pillows.accountsafe.popup.Popup;
 import com.pillows.encryption.Encryptor;
 import com.pillows.saver.DataSaver;
 import com.pillows.tools.Trash;

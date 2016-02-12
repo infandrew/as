@@ -34,6 +34,7 @@
         android:id="@+id/action_settings"
         android:orderInCategory="400"
         android:title="@string/action_settings"
+        android:visible="false"
         app:showAsAction="never" />
     <item
         android:id="@+id/action_changekey"

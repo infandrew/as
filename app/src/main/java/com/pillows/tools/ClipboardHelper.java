@@ -45,6 +45,7 @@ public class ClipboardHelper {
                 for (int i = Settings.CLIPBOARD_HISTORY_SIZE; i >= 1; i--) {
                     clip = ClipData.newPlainText("text", "" + i);
                     clipboard.setPrimaryClip(clip);
+
                 }
 
                 countDownTimer = null;

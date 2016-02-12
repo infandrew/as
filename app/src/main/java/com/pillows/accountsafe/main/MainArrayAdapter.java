@@ -1,6 +1,7 @@
 package com.pillows.accountsafe.main;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.CountDownTimer;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
@@ -15,13 +16,18 @@ import android.widget.TextView;
 import com.pillows.accountsafe.AccountDetails;
 import com.pillows.accountsafe.CallGearAction;
 import com.pillows.accountsafe.R;
+import com.pillows.accountsafe.popup.Popup;
 import com.pillows.encryption.Encryptor;
 import com.pillows.tools.ClipboardHelper;
 import com.pillows.tools.CollapseHelper;
 import com.pillows.tools.PasswordHelper;
+import com.pillows.tools.Trash;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static com.pillows.accountsafe.Settings.*;
 
@@ -29,9 +35,11 @@ import static com.pillows.accountsafe.Settings.*;
  * Created by agudz on 25/01/16.
  */
 class MainArrayAdapter extends ArrayAdapter<AccountDetails> {
+    private static boolean showUnlockPopup = true;
 
     private List<AccountDetails> items;
     private MainActivity context;
+    private List<CountDownTimer> timers = new ArrayList<CountDownTimer>();
 
     public MainArrayAdapter(MainActivity context, int viewId,
                             List<AccountDetails> items) {
@@ -73,6 +81,9 @@ class MainArrayAdapter extends ArrayAdapter<AccountDetails> {
             if (watchTime > ACCOUNT_WATCH_TIME) {
                 hideAccount(view);
             }
+            if (showUnlockPopup) {
+                showUnlockPopup(view);
+            }
         } else {
             showAccount(view, account.getLogin(), account.getPassword(), account);
         }
@@ -88,6 +99,7 @@ class MainArrayAdapter extends ArrayAdapter<AccountDetails> {
         final View collapseImage = view.findViewById(R.id.list_item_collapse);
 
         View.OnClickListener listner = new View.OnClickListener() {
+
             private CountDownTimer countDownTimer = null;
 
             @Override
@@ -128,7 +140,22 @@ class MainArrayAdapter extends ArrayAdapter<AccountDetails> {
         return view;
     }
 
-
+    private void showUnlockPopup(final View view) {
+        showUnlockPopup = false;
+        new android.os.Handler().postDelayed(
+            new Runnable() {
+                public void run() {
+                    SharedPreferences sharedPref = context.getPreferences(Context.MODE_PRIVATE);
+                    if (view != null && sharedPref.getBoolean("popup_unlock", true)) {
+                        Popup popup = new Popup(context, context.getString(R.string.popup_unlock));
+                        popup.show(view);
+                        sharedPref.edit().putBoolean("popup_unlock", false).commit();
+                    }
+                }
+            },
+            1000
+        );
+    }
 
     private void hideDecAccount(View view) {
         hideAccount(view);
@@ -168,26 +195,32 @@ class MainArrayAdapter extends ArrayAdapter<AccountDetails> {
             account.setCollapsed(false);
 
             final TextView watchTimer = (TextView) view.findViewById(R.id.list_item_watchtimer);
-            watchTimer.setText("" + ACCOUNT_WATCH_TIME / 1000);
+            watchTimer.setText(Long.toString(ACCOUNT_WATCH_TIME / 1000));
             watchTimer.setVisibility(View.VISIBLE);
 
             CountDownTimer countDownTimer = new CountDownTimer(ACCOUNT_WATCH_TIME, 1000) {
                 public void onTick(long millisUntilFinished) {
                     long timeToHide = ACCOUNT_WATCH_TIME - System.currentTimeMillis() + account.getWatchTime();
-                    watchTimer.setText("" + timeToHide / 1000);
+                    watchTimer.setText(Long.toString(timeToHide / 1000));
                 }
-
                 public void onFinish() {
                     hideAccount(view);
                     account.setCollapsed(true);
                 }
-
             }.start();
+            timers.add(countDownTimer);
 
             showAccount(view, login, password, account);
             CollapseHelper.expand(view.findViewById(R.id.list_item_collapsable));
             return countDownTimer;
         }
+    }
+
+    public void clearTimers() {
+        for (CountDownTimer timer: timers)
+            if (timer != null)
+                timer.cancel();
+        timers.clear();
     }
 
     private void showAccount(final View view, final String login, final String password, AccountDetails account) {

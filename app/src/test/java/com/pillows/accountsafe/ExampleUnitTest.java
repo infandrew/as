@@ -16,6 +16,20 @@ import static org.junit.Assert.*;
  * To work on unit tests, switch the Test Artifact in the Build Variants view.
  */
 public class ExampleUnitTest {
+
+    byte[] image;
+
+    @Test
+    public void test() {
+        setImage(null);
+    }
+
+    public void setImage(byte[] image) {
+        this.image = new byte[image.length];
+        System.arraycopy(image, 0, this.image, 0, image.length);
+    }
+
+
     @Test
     public void addition_isCorrect() throws Exception {
         assertEquals(4, 2 + 2);

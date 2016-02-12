@@ -27,7 +27,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
+        <!--<activity
             android:name=".SettingsActivity"
             android:label="@string/action_settings"
             android:parentActivityName=".main.MainActivity">
@@ -38,7 +38,7 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".main.MainActivity" />
-        </activity>
+        </activity>-->
         <activity
             android:name=".AddActivity"
             android:label="@string/activity_add_title"

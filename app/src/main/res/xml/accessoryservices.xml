@@ -31,16 +31,16 @@
         <serviceProfile
             id="/safe/action"
             name="safe"
-            role="consumer"
+            role="provider"
             serviceImpl="com.pillows.accessory.AccessoryService"
             version="1.0"
-            serviceLimit="ANY"
+            serviceLimit="ONE_PEERAGENT"
             serviceTimeout="10">
             <supportedTransports>
                 <transport type="TRANSPORT_BT" />
                 <transport type="TRANSPORT_WIFI" />
             </supportedTransports>
-            <serviceChannel id="228" dataRate="low" priority="high" reliability= "enable"/>
+            <serviceChannel id="228" dataRate="high" priority="low" reliability= "enable"/>
     </serviceProfile>
     </application>
 
